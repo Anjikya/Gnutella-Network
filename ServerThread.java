@@ -103,14 +103,10 @@ class ClientDownload extends Thread
 			
 			filename=p.filename;
 			System.out.println("got the file: "+filename);
-			//System.out.println(p.peeridsearched);
-			//System.out.println("message id value "+p.message_id);
-			//System.out.println("bool value "+peerduplicate);
 			
 			if(!peerduplicate)
 			{
 				
-			//	System.out.println("Entered inside the loop");
 				File newfind;
 				File directoryObj = new File(FileDirectory);
 				String[] filesList = directoryObj.list();
@@ -132,52 +128,46 @@ class ClientDownload extends Thread
 				
 		    	String ab=prop.getProperty("peer"+peer_id+".next");
 		    	if(ab!=null)
-		    		{
-		    			//System.out.println("entered inside the loop");
-		    			String[] neighbours=ab.split(",");
-			  	
-		    			for(int i=0;i<neighbours.length;i++)
-		    			{   
-		    				if(p.frompeer_id==Integer.parseInt(neighbours[i]))	//creat client thread for all neighbouring peers
-		    				{
-		    					continue;
-		    				}
-		    				int connectingport=Integer.parseInt(prop.getProperty("peer"+neighbours[i]+".port"));
-		    				int neighbouringpeer=Integer.parseInt(neighbours[i]);
-		    				
-		    				System.out.println("sending to"+neighbouringpeer);
-		    				ClientThread cp=new ClientThread(connectingport,neighbouringpeer,filename,p.message_id,peer_id);
-		    				Thread t=new Thread(cp);
-		    				t.start();
-		    				thread.add(t);
-		    				peerswithfiles.add(cp);
-		    				
-		    			}
-		    		}
-			  	//oos.writeObject(p);
-			  			for(int i=0;i<thread.size();i++)
-			  				{
-			  					((Thread) thread.get(i)).join();
-			  				}
-			  			for(int i=0;i<peerswithfiles.size();i++)
-			  				{
-			  					a=((ClientThread)peerswithfiles.get(i)).getarray();
-			  					for(int j=0;j<a.length;j++)
-			  					{	if(a[j]==0)
-			  						break;
-			  						globalarrayofpeers[countofpeers++]=a[j];
-			  					}
-			  				}
+			{
+				//System.out.println("entered inside the loop");
+				String[] neighbours=ab.split(",");
+
+				for(int i=0;i<neighbours.length;i++)
+				{   
+					if(p.frompeer_id==Integer.parseInt(neighbours[i]))	//creat client thread for all neighbouring peers
+					{
+						continue;
 					}
-				
-						oos.writeObject(globalarrayofpeers);
-			
-			
+					int connectingport=Integer.parseInt(prop.getProperty("peer"+neighbours[i]+".port"));
+					int neighbouringpeer=Integer.parseInt(neighbours[i]);
+
+					System.out.println("sending to"+neighbouringpeer);
+					ClientThread cp=new ClientThread(connectingport,neighbouringpeer,filename,p.message_id,peer_id);
+					Thread t=new Thread(cp);
+					t.start();
+					thread.add(t);
+					peerswithfiles.add(cp);
+
+				}
+			}
+			for(int i=0;i<thread.size();i++)
+				{
+					((Thread) thread.get(i)).join();
+				}
+			for(int i=0;i<peerswithfiles.size();i++)
+				{
+					a=((ClientThread)peerswithfiles.get(i)).getarray();
+					for(int j=0;j<a.length;j++)
+					{	if(a[j]==0)
+						break;
+						globalarrayofpeers[countofpeers++]=a[j];
+					}
+				}
+			}
+			oos.writeObject(globalarrayofpeers);
 		}catch(Exception e)
 		{
-			
 			e.printStackTrace();
-			
 		}
 	}
 	
