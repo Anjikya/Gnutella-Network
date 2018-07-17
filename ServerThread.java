@@ -118,7 +118,6 @@ class ClientDownload extends Thread
 		    	String ab=prop.getProperty("peer"+peer_id+".next");
 		    	if(ab!=null)
 			{
-				//System.out.println("entered inside the loop");
 				String[] neighbours=ab.split(",");
 
 				for(int i=0;i<neighbours.length;i++)
