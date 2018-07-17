@@ -85,13 +85,10 @@ class ClientDownload extends Thread
 			p=(PeerMessageId)ois.readObject();					//reading the serialized PeerMessageID class
 		
 			System.out.println("got request from "+p.frompeer_id);
-			//System.out.println("size of arraylist "+peermsg.size());
-			
-			 peerduplicate=this.peermsg.contains(p.message_id);
-			 if(peerduplicate==false){
-				 this.peermsg.add(p.message_id);
-				 
-			 }
+			peerduplicate=this.peermsg.contains(p.message_id);
+			if(peerduplicate==false){
+				this.peermsg.add(p.message_id);
+			}
 			
 			filename=p.filename;
 			System.out.println("got the file: "+filename);
