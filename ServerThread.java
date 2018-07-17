@@ -22,33 +22,28 @@ static ArrayList<String> peermsg;
 	
 	public void run()
 	{
-	
 		try{
-	
-		serverSocket=new ServerSocket(port_no);
+			serverSocket=new ServerSocket(port_no);
 		
-		
-		}catch(IOException ie)
-	{
+		} catch(IOException ie)
+		{
 			ie.printStackTrace();
-	}
+		}
 	
 		while(true)//Accept() to create server socket for every request
 			{
 			try{
-			
-		socket=serverSocket.accept();
-		System.out.println("Connected to client at "+socket.getRemoteSocketAddress()+" with peer "+peer_id);
-		new ClientDownload(socket,FileDirectory,peer_id,peermsg).start();
-		
-		}catch(IOException io)
-	{
-			io.printStackTrace();
-	}
+				socket=serverSocket.accept();
+				System.out.println("Connected to client at "+socket.getRemoteSocketAddress()+" with peer "+peer_id);
+				new ClientDownload(socket,FileDirectory,peer_id,peermsg).start();
+			} catch(IOException io)
+			{
+				io.printStackTrace();
 			}
+		}
 	}
 
-	}
+}
 
 
 class ClientDownload extends Thread
@@ -96,9 +91,6 @@ class ClientDownload extends Thread
 			 if(peerduplicate==false){
 				 this.peermsg.add(p.message_id);
 				 
-			 }
-			 else{
-				 System.out.println("duplicate");
 			 }
 			
 			filename=p.filename;
